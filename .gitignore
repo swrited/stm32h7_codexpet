@@ -1,0 +1,33 @@
+# Build outputs
+OBJ/
+Listings/
+*.o
+*.d
+*.crf
+*.axf
+*.hex
+*.map
+*.lst
+*.dep
+*.lnp
+*.htm
+*.build_log.htm
+*.uvguix.*
+*.uvoptx
+*.bak
+*.tmp
+
+# Keil generated/debug files
+JLinkLog.txt
+*.dbgconf
+*.scvd
+*.uvgui.*
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Optional large/generated assets
+# SD card generated BIN frames live on the SD card, not in this firmware project.
