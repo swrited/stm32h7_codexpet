@@ -1,4 +1,5 @@
 #include "lcd.h"
+#include "FONT.h"
 
 /**************************************************************
  *  240x240 IPS LCD 驱动 (ST7789)
@@ -257,7 +258,49 @@ void LCD_Fast_DrawPoint(u16 x, u16 y, u16 color)
  ************************************************/
 void LCD_ShowChar(u16 x, u16 y, u8 num, u8 size, u16 color, u8 mode)
 {
-    (void)x; (void)y; (void)num; (void)size; (void)color; (void)mode;
+    u8 temp, t, t1;
+    u16 y0 = y;
+    u8 csize;
+    const unsigned char *pfont;
+
+    if (num < ' ' || num > '~') return;
+    num = num - ' ';
+
+    if (size == 12)
+    {
+        csize = 12;
+        pfont = asc2_1206[num];
+    }
+    else
+    {
+        csize = 16;
+        pfont = asc2_1608[num];
+        size = 16;
+    }
+
+    for (t = 0; t < csize; t++)
+    {
+        temp = pfont[t];
+        for (t1 = 0; t1 < 8; t1++)
+        {
+            if (temp & 0x80)
+            {
+                LCD_DrawPoint(x, y, color);
+            }
+            else if (mode == 0)
+            {
+                LCD_DrawPoint(x, y, BACK_COLOR);
+            }
+            temp <<= 1;
+            y++;
+            if ((y - y0) == size)
+            {
+                y = y0;
+                x++;
+                break;
+            }
+        }
+    }
 }
 
 /************************************************
@@ -265,7 +308,22 @@ void LCD_ShowChar(u16 x, u16 y, u8 num, u8 size, u16 color, u8 mode)
  ************************************************/
 void LCD_ShowString(u16 x, u16 y, u16 width, u16 height, u8 size, u16 color, u8 *p)
 {
-    (void)x; (void)y; (void)width; (void)height; (void)size; (void)color; (void)p;
+    u8 x0 = x;
+    BACK_COLOR = BLACK;
+    width += x;
+    height += y;
+    while ((*p <= '~') && (*p >= ' '))
+    {
+        if (x >= width)
+        {
+            x = x0;
+            y += size;
+        }
+        if (y >= height) break;
+        LCD_ShowChar(x, y, *p, size, color, 1);
+        x += size / 2;
+        p++;
+    }
 }
 
 /************************************************
@@ -273,7 +331,19 @@ void LCD_ShowString(u16 x, u16 y, u16 width, u16 height, u8 size, u16 color, u8 
  ************************************************/
 void LCD_ShowNum(u16 x, u16 y, u32 num, u8 len, u8 size, u16 color)
 {
-    (void)x; (void)y; (void)num; (void)len; (void)size; (void)color;
+    char buf[12];
+    u8 i;
+    for (i = 0; i < len; i++) buf[i] = '0';
+    buf[len] = 0;
+    i = len;
+    do
+    {
+        if (i == 0) break;
+        i--;
+        buf[i] = (num % 10) + '0';
+        num /= 10;
+    } while (num);
+    LCD_ShowString(x, y, len * (size / 2), size, size, color, (u8 *)buf);
 }
 
 /************************************************

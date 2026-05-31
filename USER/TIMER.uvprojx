@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER, STM32H743xx</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\USER;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HALLIB\STM32H7xx_HAL_Driver\Inc;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\SDCARD;..\HARDWARE\WWDG;..\HARDWARE\TIMER;..\HARDWARE\GBK_LibDrive;..\HARDWARE\SPI;..\HARDWARE\LCD130H</IncludePath>
+              <IncludePath>..\CORE;..\USER;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HALLIB\STM32H7xx_HAL_Driver\Inc;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\SDCARD;..\HARDWARE\WS2812;..\HARDWARE\WWDG;..\HARDWARE\TIMER;..\HARDWARE\GBK_LibDrive;..\HARDWARE\SPI;..\HARDWARE\LCD130H</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -578,6 +578,11 @@
               <FileName>timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\TIMER\timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>ws2812.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\WS2812\ws2812.c</FilePath>
             </File>
           </Files>
         </Group>
